@@ -1,8 +1,11 @@
+import { createTask } from "../action";
+
 export default function AddTaskForm() {
   return (
-    <form className="flex gap-3 mb-6">
+    <form action={createTask} className="flex gap-3 mb-6">
       <input
         type="text"
+        name="title"
         placeholder="Enter a new task..."
         className="flex-1 border border-gray-300 rounded-lg px-4 py-2 outline-none focus:ring-2 focus:ring-blue-500"
       />

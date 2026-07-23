@@ -7,7 +7,11 @@ import FilterButtons from "./components/FilterButtons";
 import TaskList from "./components/TaskList";
 
 export default async function Home() {
-  const tasks = await prisma.task.findMany();
+  const tasks = await prisma.task.findMany({
+  orderBy: {
+    id: "asc",
+  },
+});
 
   return (
     <main className="min-h-screen bg-gray-100 py-10">
