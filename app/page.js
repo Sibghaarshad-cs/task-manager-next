@@ -1,60 +1,41 @@
-import { cookies } from "next/headers";
-import { redirect } from "next/navigation";
-import prisma from "@/lib/prisma";
-import Header from "./components/Header";
-import ProgressBar from "./components/ProgressBar";
-import AddTaskForm from "./components/AddTaskForm";
-import FilterButtons from "./components/FilterButtons";
-import TaskList from "./components/TaskList";
+import Link from "next/link";
 
-export default async function Home({ searchParams }) {
-
-  // Check if user is logged in
-  const cookieStore = await cookies();
-
-  const userId = cookieStore.get("userId");
-
-  if (!userId) {
-    redirect("/login");
-  }
-
-
-  const params = await searchParams;
-
-  const filter = params?.filter || "all";
-
-  let where = {};
-
-  if (filter === "active") {
-    where.completed = false;
-  } else if (filter === "completed") {
-    where.completed = true;
-  }
-
-
-  const tasks = await prisma.task.findMany({
-    where,
-    orderBy: {
-      id: "asc",
-    },
-  });
-
-
+export default function Home() {
   return (
-    <main className="min-h-screen bg-gray-100 py-10">
-      <div className="max-w-3xl mx-auto bg-white rounded-2xl shadow-lg p-8">
+    <main className="min-h-screen bg-gray-100 flex items-center justify-center">
 
-        <Header />
+      <div className="bg-white p-10 rounded-2xl shadow-lg text-center">
 
-        <ProgressBar />
+        <h1 className="text-4xl font-bold mb-4">
+          Task Manager
+        </h1>
 
-        <AddTaskForm />
+        <p className="text-gray-500 mb-8">
+          Manage your tasks easily
+        </p>
 
-        <FilterButtons filter={filter} />
 
-        <TaskList tasks={tasks} />
+        <div className="flex gap-4 justify-center">
+
+          <Link
+            href="/signup"
+            className="bg-blue-600 text-white px-6 py-3 rounded-lg hover:bg-blue-700"
+          >
+            Signup
+          </Link>
+
+
+          <Link
+            href="/login"
+            className="bg-gray-800 text-white px-6 py-3 rounded-lg hover:bg-gray-900"
+          >
+            Login
+          </Link>
+
+        </div>
 
       </div>
+
     </main>
   );
 }

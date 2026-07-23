@@ -33,7 +33,7 @@ export default function SignupPage() {
       
       // go to login page
       setTimeout(() => {
-        router.push("/login");
+      router.push("/dashboard");
       }, 1000);
 
     } else {

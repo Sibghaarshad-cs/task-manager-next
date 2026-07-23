@@ -2,11 +2,17 @@
 
 import prisma from "@/lib/prisma";
 import { revalidatePath } from "next/cache";
+import { cookies } from "next/headers";
 
 export async function createTask(formData) {
   const title = formData.get("title");
 
   if (!title) return;
+
+  const cookieStore = await cookies();
+  const userId = cookieStore.get("userId");
+
+  if (!userId) return;
 
   await prisma.task.create({
     data: {
@@ -14,13 +20,13 @@ export async function createTask(formData) {
       completed: false,
       user: {
         connect: {
-          id: 1,
+          id: Number(userId.value),
         },
       },
     },
   });
 
-  revalidatePath("/");
+  revalidatePath("/dashboard");
 }
 
 export async function toggleTask(id) {
@@ -41,7 +47,7 @@ export async function toggleTask(id) {
     },
   });
 
-  revalidatePath("/");
+  revalidatePath("/dashboard");
 }
 
 export async function deleteTask(id) {
@@ -51,5 +57,5 @@ export async function deleteTask(id) {
     },
   });
 
-  revalidatePath("/");
+  revalidatePath("/dashboard");
 }

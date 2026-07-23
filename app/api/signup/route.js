@@ -34,11 +34,26 @@ export async function POST(request) {
       },
     });
 
-    return NextResponse.json({
-      message: "User created successfully",
-      user,
-    });
+   const response = NextResponse.json({
+  message: "Signup successful",
+  user: {
+    id: user.id,
+    name: user.name,
+    email: user.email,
+  },
+});
 
+response.cookies.set(
+  "userId",
+  user.id.toString(),
+  {
+    httpOnly: true,
+    maxAge: 60 * 60 * 24,
+    sameSite: "lax",
+  }
+);
+
+return response;
   } catch (error) {
     return NextResponse.json(
       { error: "Something went wrong" },
