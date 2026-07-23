@@ -1,17 +1,28 @@
+import Link from "next/link";
+
 export default function FilterButtons() {
   return (
     <div className="flex gap-3 mb-6">
-      <button className="bg-blue-600 text-white px-4 py-2 rounded-lg">
+      <Link
+        href="/?filter=all"
+        className="bg-blue-600 text-white px-4 py-2 rounded-lg"
+      >
         All
-      </button>
+      </Link>
 
-      <button className="bg-gray-200 px-4 py-2 rounded-lg">
+      <Link
+        href="/?filter=active"
+        className="bg-gray-200 px-4 py-2 rounded-lg hover:bg-gray-300"
+      >
         Active
-      </button>
+      </Link>
 
-      <button className="bg-gray-200 px-4 py-2 rounded-lg">
+      <Link
+        href="/?filter=completed"
+        className="bg-gray-200 px-4 py-2 rounded-lg hover:bg-gray-300"
+      >
         Completed
-      </button>
+      </Link>
     </div>
   );
 }
